@@ -2,7 +2,6 @@
 
 #ifndef PITCH_ANALYZER_H
 #define PITCH_ANALYZER_H
-
 #include <vector>
 #include <algorithm>
 

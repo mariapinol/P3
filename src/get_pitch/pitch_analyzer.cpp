@@ -12,7 +12,14 @@ namespace upc {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
   		/// \TODO Compute the autocorrelation r[l]
+<<<<<<< HEAD
      
+=======
+      r[l]=0;
+      for(unsigned int n=1; n<x.size();n++){
+        r[l]+=x[n-1]*x[n];
+      }
+>>>>>>> 088198d73548d90caa9fbad71dc598d1f59ee398
     }
 
     if (r[0] == 0.0F) //to avoid log() and divide zero 
