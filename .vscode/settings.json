@@ -1,3 +1,5 @@
 {
-    "cmake.sourceDirectory": "${workspaceFolder}/src/pav/docopt_cpp"
+    "cmake.sourceDirectory": "${workspaceFolder}/src/pav/docopt_cpp",
+    "git.ignoreLimitWarning": true,
+    "C_Cpp.errorSquiggles": "Disabled"
 }

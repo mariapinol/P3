@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string.h>
 #include <errno.h>
+#include <algorithm>
 
 #include "wavfile_mono.h"
 #include "pitch_analyzer.h"
@@ -18,16 +19,13 @@ using namespace upc;
 
 static const char USAGE[] = R"(
 get_pitch - Pitch Detector 
-
 Usage:
-    get_pitch [options] <input-wav> <output-txt>
+    get_pitch [options] <input-wav> <output-txt> [<pow_th>] [<r1_th>] [<rmax_th>]
     get_pitch (-h | --help)
     get_pitch --version
-
 Options:
     -h, --help  Show this screen
     --version   Show the version of the project
-
 Arguments:
     input-wav   Wave file with the audio signal
     output-txt  Output file: ASCII file with the result of the detection:
@@ -47,6 +45,26 @@ int main(int argc, const char *argv[]) {
 	std::string input_wav = args["<input-wav>"].asString();
 	std::string output_txt = args["<output-txt>"].asString();
 
+  float pow_th;
+  float r1_th;
+  float rmax_th;
+
+  if (argc > 3)
+    pow_th = -1.0 * stof(args["<pow_th>"].asString());
+  else
+    pow_th = -51.5;
+  
+  if (argc > 4) 
+    r1_th = stof(args["<r1_th>"].asString()); 
+  else 
+    r1_th = 0.6;
+
+  if (argc > 5)
+    rmax_th = stof(args["<rmax_th>"].asString());
+  else
+    rmax_th = 0.25;
+
+
   // Read input sound file
   unsigned int rate;
   vector<float> x;
@@ -59,12 +77,28 @@ int main(int argc, const char *argv[]) {
   int n_shift = rate * FRAME_SHIFT;
 
   // Define analyzer
-  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500);
+  PitchAnalyzer analyzer(n_len, rate, pow_th, r1_th, rmax_th, PitchAnalyzer::HAMMING, 50, 500);
 
-  /// \TODO
+  /// \DONE
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
-  
+  float cl_threshold = 0.0;
+  float pow = 0.0;
+
+  for (unsigned int i = 0; i < x.size(); i++) 
+    pow += x[i] * x[i];
+  pow /= x.size();
+
+  cl_threshold = 0.8 * pow;
+
+  for (unsigned int i = 0; i < x.size(); i++)
+    if (x[i] >= cl_threshold)
+      x[i] -= cl_threshold;
+    else if (abs(x[i]) < cl_threshold)
+      x[i] = 0;
+    else 
+      x[i] += cl_threshold;
+
   // Iterate for each frame and save values in f0 vector
   vector<float>::iterator iX;
   vector<float> f0;
@@ -73,9 +107,18 @@ int main(int argc, const char *argv[]) {
     f0.push_back(f);
   }
 
-  /// \TODO
+  /// \DONE
   /// Postprocess the estimation in order to supress errors. For instance, a median filter
   /// or time-warping may be used.
+
+  vector<float>window(3);
+
+  for (unsigned int i = 1; i < f0.size() - 1; ++i) { 
+    for (unsigned int p = 0; p < 3; ++p)
+      window[p] = f0[i - 1 + p];
+    sort(window.begin(), window.end());
+    f0[i] = window[1];
+  }
 
   // Write f0 contour into the output file
   ofstream os(output_txt);
