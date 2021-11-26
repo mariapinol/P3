@@ -2,7 +2,6 @@
 
 # Put here the program (maybe with path)
 GETF0="get_pitch"
-
 if [ -z "$1" ]; then
     pow_th=51.5
 else
