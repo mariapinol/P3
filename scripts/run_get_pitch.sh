@@ -19,7 +19,6 @@ if [ -z "$3" ]; then
 else
     rmax_th=$3
 fi
-
 for fwav in pitch_db/train/*.wav; do
     ff0=${fwav/.wav/.f0}
     echo "$GETF0 $fwav $ff0 ----"

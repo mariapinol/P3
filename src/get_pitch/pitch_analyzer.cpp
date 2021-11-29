@@ -119,7 +119,9 @@ namespace upc {
     
     if (unvoiced(pot, r[1]/r[0], r[lag]/r[0]))
       return 0;
+      //return pot;
     else
       return (float) samplingFreq/(float) lag;
+      //return pot;
   }
 }

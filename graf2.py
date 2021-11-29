@@ -2,8 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io.wavfile as wf
 
-f0 = np.loadtxt("rl002.f0", dtype=float)
-f0ref = np.loadtxt("rl002_waveSurfer.txt", dtype=float)
+f0 = np.loadtxt("rl018.f0", dtype=float)
+f0ref = np.loadtxt("rl018_waveSurfer.f0", dtype=float)
 
 fm = 20000
 time = np.arange(0,len(f0)).astype(float)
