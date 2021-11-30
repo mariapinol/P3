@@ -165,7 +165,7 @@ Se ha implementado una version del filtro de mediana:
 
 <img width="391" alt="Captura de pantalla 2021-11-30 a las 12 49 38" src="https://user-images.githubusercontent.com/92084115/144042247-3d6c3236-945d-49b0-b145-cc38092c92d4.png">
 
-El resultado a mejorada muy poco por algun motivo que desconocemos, igualmente hemos pensado en adjuntarlo en este apartado la detección del pitch antes del center clipping y el filtro de mediana y la detección del pitch despues de aplicar estas técnicas: 
+El resultado a mejorada muy poco por algun motivo que desconocemos, igualmente hemos pensado en adjuntar en este apartado la detección del pitch antes del center clipping y el filtro de mediana y la detección del pitch después de aplicar estas técnicas: 
 
 <img width="1291" alt="Captura de pantalla 2021-11-30 a las 14 18 04" src="https://user-images.githubusercontent.com/92084115/144054475-885d4058-3cdf-48d0-a2be-acc14245298a.png">
 
